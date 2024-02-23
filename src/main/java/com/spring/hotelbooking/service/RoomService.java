@@ -9,4 +9,8 @@ import java.sql.SQLException;
 
 public interface RoomService {
     Room addNewRoom(MultipartFile photo, String roomType, BigDecimal roomPrice) throws SQLException, IOException;
+
+    public boolean deleteRoomById(Long id) ;
+
+
 }

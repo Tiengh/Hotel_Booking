@@ -3,6 +3,7 @@ package com.spring.hotelbooking.service.Impl;
 import com.spring.hotelbooking.model.Room;
 import com.spring.hotelbooking.repository.RoomRepository;
 import com.spring.hotelbooking.service.RoomService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -12,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,5 +31,16 @@ public class RoomServiceImpl implements RoomService {
         }
         Room cs =  roomRepository.save(room);
         return cs;
+    }
+
+    @Transactional
+    public boolean deleteRoomById(Long id) {
+        Optional<Room> roomOptional = roomRepository.findById(id);
+        if(roomOptional.isPresent()) {
+            roomRepository.deleteById(id);
+            return true;
+        } else {
+            return false;
+        }
     }
 }

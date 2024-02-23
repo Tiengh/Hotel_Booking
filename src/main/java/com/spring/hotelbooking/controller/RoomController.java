@@ -4,6 +4,7 @@ import com.spring.hotelbooking.model.Room;
 import com.spring.hotelbooking.response.RoomResponse;
 import com.spring.hotelbooking.service.RoomService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -25,7 +26,14 @@ public class RoomController {
         Room saveRoom = roomService.addNewRoom(photo, roomType, roomPrice);
         RoomResponse response = new RoomResponse(saveRoom.getId(), saveRoom.getRoomType(), saveRoom.getRoomPrice());
         return ResponseEntity.ok(response);
-
-
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteRoom(@PathVariable Long id) {
+        boolean check = roomService.deleteRoomById(id);
+        if(check){
+            return new ResponseEntity<>("Room deleted successfully", HttpStatus.OK);
+        }else {
+            return new ResponseEntity<>("Room not exist", HttpStatus.OK);
+        }
     }
 }
